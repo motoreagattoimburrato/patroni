@@ -6,7 +6,9 @@ networks:
     patroni_network:
 
 volumes:
-    db-data:
+    db_data1:
+    db_data2:
+    db_data3:
 
 services:
     etcd1: &etcd
@@ -55,6 +57,8 @@ services:
         env_file: docker/patroni.env
         hostname: patroni1
         container_name: patroni-pgsql1
+        volumes:
+          - "db_data1:/home/postgres/data"
         deploy: &deploy_policies
             restart_policy:
                 condition: on-failure
@@ -71,6 +75,8 @@ services:
         env_file: docker/patroni.env
         hostname: patroni2
         container_name: patroni-pgsql2
+        volumes:
+          - "db_data2:/home/postgres/data"
         deploy:
             <<: *deploy_policies
         environment:
@@ -83,6 +89,8 @@ services:
         env_file: docker/patroni.env
         hostname: patroni3
         container_name: patroni-pgsql3
+        volumes:
+          - "db_data3:/home/postgres/data"
         deploy:
             <<: *deploy_policies
         environment:
